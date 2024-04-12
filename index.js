@@ -113,10 +113,30 @@ class Hashmap {
 
     values() {
         // returns an array containing all the values.
+
+        const values = [];
+        for (let i = 0; i < this.bucket.length; i++) {
+            if (this.bucket[i]) {
+                for (let j = 0; j < this.bucket[i].length; j++) {
+                    values.push(this.bucket[i][j][1]);
+                }
+            }
+        }
+        return values;
     }
 
     entries() {
         // returns an array that contains each key, value pair.Example: [[firstKey, firstValue], [secondKey, secondValue]]
+
+        const pairs = [];
+        for (let i = 0; i < this.bucket.length; i++) {
+            if (this.bucket[i]) {
+                for (let j = 0; j < this.bucket[i].length; j++) {
+                    pairs.push(this.bucket[i][j]);
+                }
+            }
+        }
+        return pairs;
     }
 }
 
@@ -134,3 +154,5 @@ console.log(test.get("Carlos"));
 // console.log(test.remove('Carlos'));
 console.log(test.has('Carlos'))
 console.log(test.keys());
+console.log(test.values());
+console.log(test.entries());
