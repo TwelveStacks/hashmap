@@ -7,7 +7,32 @@ class Hashmap {
         this.bucket = new Array(size); // Array that will store key value pairs
         this.size = size; // Initial size of hashmap
         this.count = 0 // Keep track of # of keys in the bucket
+    }
 
+    resize(newSize) {
+        const newBucket = new Array(newSize)
+        this.size = newSize
+
+        // Iterate over each element in old bucket
+        for (let i = 0; i < this.bucket.length; i++) {
+            const bucket = this.bucket[i];
+            if (bucket) {
+                for (let j = 0; j < bucket.length; j++) {
+                    console.log(`bucket[j] = ${bucket[j]}`)
+                    const [key, value] = bucket[j];
+
+                    const newIndex = this.hash(key) % newSize; // Get the new Index using new Size
+
+                    if (!newBucket[newIndex]) {
+                        newBucket[newIndex] = [];
+                    }
+
+                    newBucket[newIndex].push([key, value]);
+                }
+            }
+        }
+
+        this.bucket = newBucket;
     }
 
     hash(key) {
@@ -21,6 +46,14 @@ class Hashmap {
 
     set(key, value) {
         const index = this.hash(key) // Get index to store the pair in bucket array
+        const loadFactor = this.count / this.bucket.length
+
+        if (loadFactor > 0.8) {
+            // Resize
+            console.log('Resizing')
+            this.resize(this.bucket.length * 2);
+        }
+
         if (!this.bucket[index]) { // Check if key valye pair is already present at given index
             this.bucket[index] = []; // If no key-value pair exists at this index, initialize an array
         }
@@ -149,6 +182,23 @@ test.set('Bill', 12);
 test.set('Ryan', 45);
 test.set('Carla', 'Manager');
 test.set('Carlos', 'Employee');
+test.set('a', 1);
+test.set('b', 2);
+test.set('c', 3);
+test.set('d', 3);
+test.set('e', 3);
+test.set('f', 3);
+test.set('g', 3);
+test.set('h', 3);
+test.set('i', 3);
+test.set('j', 3);
+test.set('k', 3);
+test.set('l', 3);
+test.set('m', 3);
+test.set('n', 3);
+test.set('o', 3);
+test.set('p', 3);
+
 
 console.log(test.get("Carlos"));
 // console.log(test.remove('Carlos'));
