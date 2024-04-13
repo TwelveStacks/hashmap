@@ -1,7 +1,3 @@
-// if (index < 0 || index >= buckets.length) {
-//     throw new Error("Trying to access index out of bound");
-// }
-
 class Hashmap {
     constructor(size = 16) {
         this.bucket = new Array(size); // Array that will store key value pairs
@@ -48,12 +44,15 @@ class Hashmap {
         const index = this.hash(key) // Get index to store the pair in bucket array
         const loadFactor = this.count / this.bucket.length
 
+        if (index < 0 || index >= this.bucket.length) {
+            throw new Error("Trying to access index out of bound");
+        }
+
         if (loadFactor > 0.8) {
             // Resize
             console.log('Resizing')
             this.resize(this.bucket.length * 2);
         }
-
         if (!this.bucket[index]) { // Check if key valye pair is already present at given index
             this.bucket[index] = []; // If no key-value pair exists at this index, initialize an array
         }
@@ -72,6 +71,10 @@ class Hashmap {
     get(key) {
         // takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
         const index = this.hash(key);
+        if (index < 0 || index >= this.bucket.length) {
+            throw new Error("Trying to access index out of bound");
+        }
+
         if (!this.bucket[index]) {
             return null;
         }
@@ -86,6 +89,9 @@ class Hashmap {
     has(key) {
         // takes a key as an argument and returns true or false based on whether or not the key is in the hash map.
         const index = this.hash(key);
+        if (index < 0 || index >= this.bucket.length) {
+            throw new Error("Trying to access index out of bound");
+        }
 
         if (!this.bucket[index]) {
             return false;
@@ -105,6 +111,9 @@ class Hashmap {
         // takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
 
         const index = this.hash(key)
+        if (index < 0 || index >= this.bucket.length) {
+            throw new Error("Trying to access index out of bound");
+        }
 
         if (!this.bucket[index]) {
             return false;
